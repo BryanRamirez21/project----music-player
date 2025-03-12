@@ -4,7 +4,8 @@ import { PlaylistProps } from "../types";
 import { useSongChange } from "../hooks/useSongChange";
 
 export function Playlist({ album, onSelectSong, currSong }: PlaylistProps) {
-    const {formatTime} = useSongChange();
+    
+    const {formatTime} = useSongChange(album);
 
     if (!album) return null;
 

@@ -14,7 +14,7 @@ export const useAlbumChange = (): UseAlbumChangeReturn => {
         setAlbum(newAlbum);
     };
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number): void => {
+    const handleTabChange = (newValue: number): void => {
         setTabValue(newValue);
     };
 

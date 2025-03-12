@@ -41,5 +41,5 @@ export interface UseAlbumChangeReturn {
   album: Album | null;
   handleChangeAlbum: (albumSelected: string) => void;
   tabValue: number;
-  handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+  handleTabChange: (newValue: number) => void;
 }

@@ -47,7 +47,7 @@ export default function MainPlayer() {
                 <PlayerControls song={song} onChangeSong={handleChangeSong} />
             </Box>
 
-            <Tabs value={tabValue} onChange={handleTabChange} variant="fullWidth">
+            <Tabs value={tabValue} onChange={() => handleTabChange} variant="fullWidth">
                 {playListSongs.playlists.map(({name}, id) => (
                     <Tab key={id} label={name} onClick={() => handleChangeAlbum(name)} />
                 ))}

@@ -5,18 +5,21 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious"
 import SkipNextIcon from "@mui/icons-material/SkipNext"
 import React, { useEffect, useRef, useState } from "react"
 import { VolumeOff, VolumeUp } from "@mui/icons-material"
-import { PlayerControlsProps } from "../types";
+import { PlayerControlsProps, UseAlbumChangeReturn } from "../types";
 import { useSongChange } from "../hooks/useSongChange"
+import { useAlbumChange } from "../hooks/useAlbumChange"
 
 
 export function PlayerControls({song, onChangeSong}: PlayerControlsProps) {
+
+    const {album}: UseAlbumChangeReturn = useAlbumChange();
 
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const [volume, setVolume] = useState<number>(60);
     const [pause, setPause] = useState<boolean>(true);
     const [currTime, setCurrTime] = useState<number>(0);
 
-    const {formatTime} = useSongChange();
+    const {formatTime} = useSongChange(album);
 
     useEffect(() => {
         if (!audioRef.current) return;
@@ -35,7 +38,7 @@ export function PlayerControls({song, onChangeSong}: PlayerControlsProps) {
     }, [song]);
     
 
-    const handleVolumeChange = (event: Event, newValue: number | number[]): void => {
+    const handleVolumeChange = (newValue: number | number[]): void => {
         setVolume(newValue as number);
         if (audioRef.current) audioRef.current.volume = volume / 100;
     };
@@ -71,7 +74,7 @@ export function PlayerControls({song, onChangeSong}: PlayerControlsProps) {
 
         <audio className="hidden" key={song.url} autoPlay controls ref={audioRef}><source src={song.url} type="audio/mpeg"/></audio>
 
-        <Slider value={currTime} defaultValue={0} sx={{ width: "100%", mb: 2 }} onChange={handleCurrSongTime} max={song.duration}/>
+        <Slider value={currTime} defaultValue={0} sx={{ width: "100%", mb: 2 }} onChange={() => handleCurrSongTime} max={song.duration}/>
 
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
             <Typography variant="caption" color="text.secondary">
@@ -115,7 +118,7 @@ export function PlayerControls({song, onChangeSong}: PlayerControlsProps) {
             ) : (
                 <VolumeUp fontSize="small" sx={{ color: "text.secondary", mr: 1 }} />
             )}
-            <Slider value={volume} onChange={handleVolumeChange} sx={{ width: "100%" }} />
+            <Slider value={volume} onChange={() => handleVolumeChange} sx={{ width: "100%" }} />
         </Box>
 
 
