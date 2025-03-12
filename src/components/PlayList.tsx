@@ -1,35 +1,12 @@
 import { Box, List, ListItem, ListItemText, ListItemIcon } from "@mui/material"
 import MusicNoteIcon from "@mui/icons-material/MusicNote"
+import { PlaylistProps } from "../types";
+import { useSongChange } from "../hooks/useSongChange";
 
-interface Song {
-    name: string;
-    url: string;
-    duration: number;
-}
+export function Playlist({ album, onSelectSong, currSong }: PlaylistProps) {
+    const {formatTime} = useSongChange();
 
-interface Album {
-    name: string;
-    artist: string;
-    year: number;
-    tracks: Song[];
-}
-
-interface PlaylistProps {
-    //songs: Song[],
-    album: Album | null,
-    onChangeSong: (song: string) => void
-}
-
-export function Playlist({ album, onChangeSong }: PlaylistProps) {
-    if (!album) {
-        return (
-            <Box sx={{ p: 2, textAlign: "center", color: "text.secondary" }}>
-                No album selected
-            </Box>
-        );
-    }
-
-    
+    if (!album) return null;
 
     return (
         <List sx={{ maxHeight: 256, overflow: "auto" }}>
@@ -38,8 +15,8 @@ export function Playlist({ album, onChangeSong }: PlaylistProps) {
                     key={id}
                     sx={{
                     cursor: "pointer",
-                    //bgcolor: currentSongId === song.id ? "action.selected" : "transparent",
-                    //"&:hover": { bgcolor: "action.hover" },
+                    bgcolor: currSong === song.name ? "action.selected" : "transparent",
+                    "&:hover": { bgcolor: "action.hover" },
                     }}
                 >
                     <ListItemIcon>
@@ -50,14 +27,13 @@ export function Playlist({ album, onChangeSong }: PlaylistProps) {
                         secondary={album.artist}
                         primaryTypographyProps={{ noWrap: true }}
                         secondaryTypographyProps={{ noWrap: true }}
-                        onClick={() => onChangeSong(song.name)}
+                        onClick={() => onSelectSong(song.name)}
                     />
                     <Box component="span" sx={{ flexShrink: 0, ml: 2, fontSize: "0.75rem", color: "text.secondary" }}>
-                        {song.duration}
+                        {formatTime(song.duration)}
                     </Box>
             </ListItem>
             ))}
         </List>
     )
 }
-
