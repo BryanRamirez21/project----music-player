@@ -1,3 +1,7 @@
+Dependencies used:
+MUI - @mui/icons-material @mui/material @emotion/styled @emotion/react, @emotion/react 
+Tailwind / TailWind Icon - @tailwindcss/vite, tailwindcss@3    
+------------------------------------------------------------------------------
 # Linear Media Player
 
 Hey, thanks for taking the time to work on this exercise. We're excited to see what you come up with –
